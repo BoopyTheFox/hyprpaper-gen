@@ -31,8 +31,8 @@ cp hyprpaper-gen ~/.config/hypr/scripts
 exec-once = ~/.config/hypr/scripts/hyprpaper-gen.sh --start
 ```
 
-### AUR (WIP)
-It is also available in AUR (not yet)
+### AUR
+It is also available in AUR
 ```bash
 paru -S hyprpaper-gen-git
 ```
