@@ -68,12 +68,27 @@ scan_current_config() {
     # I did this so i can submit this script to AUR with hyprland only as optional dependency,
     # since some might use it with other wlroots-based compositors
     if [ "$MODE" != "pick" ]; then
+        # Store monitors, if hyprctl is installed
         if command -v hyprctl &>/dev/null; then
             monitors=($(hyprctl monitors | awk '/Monitor/{print $2}'))
         else
-            echo "You don't have hyprctl installed!"
-            echo "However, you can manually assign monitors using the -P option."
-            echo "$this_script_name -h for examples"
+            echo "No hyprctl installed - can't automatically detect monitors!"
+            echo "However, you can manually assign wallpapers to monitors using -P option."
+            echo "'$this_script_name -h' for examples"
+            exit 1
+
+        # Store wallpaper paths, if directory and wallpapers do exist
+        if [ -d "$wallpaper_dir" ]; then
+            all_wallpapers=($(find "$wallpaper_dir" -maxdepth 1 -type f 2>/dev/null))
+        else
+            echo "$wallpaper_dir directory doesn't exist!"
+            echo "'$this_script_name -w /path/to/wallpaper_directory' to set custom directory"
+            exit 1
+        fi
+        
+        # Check if there are even wallpapers
+        if [ "${#all_wallpapers[@]}" -eq 0 ]; then
+            echo "There are no wallpapers in the wallpaper directory!"
             exit 1
         fi
     fi
@@ -81,17 +96,6 @@ scan_current_config() {
     # Store "wallpaper = ..." lines, line-by-line
     mapfile -t existing_wallpapers < <(grep 'wallpaper =' "$config_file" 2>/dev/null)
     
-    # Store wallpaper paths, if directory and wallpapers do exist
-    if [ -d "$wallpaper_dir" ]; then
-        all_wallpapers=($(find "$wallpaper_dir" -maxdepth 1 -type f 2>/dev/null))
-    else
-        echo "$wallpaper_dir directory doesn't exist!"
-        exit 1
-    fi
-
-    if [ "${#all_wallpapers[@]}" -eq 0 ]; then
-        echo "There are no wallpapers in the directory!"
-        exit 1
     fi
 }
 
