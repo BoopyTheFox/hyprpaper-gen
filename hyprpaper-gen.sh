@@ -63,17 +63,17 @@ EOF
 }
 
 scan_current_config() {
-    # If -P | --pick, you can manually assign monitors with no need for hyprctl
+    # If -P | --pick, you can manually assign wallpapers to monitors with no need for hyprctl
     #
-    # I did this so i can apply script to AUR with hyprland only as optional dependency,
-    # because some people might use non-
+    # I did this so i can submit this script to AUR with hyprland only as optional dependency,
+    # since some might use it with other wlroots-based compositors
     if [ "$MODE" != "pick" ]; then
         if command -v hyprctl &>/dev/null; then
             monitors=($(hyprctl monitors | awk '/Monitor/{print $2}'))
         else
             echo "You don't have hyprctl installed!"
-            echo "You need to install it, or manually assign monitors using the -P option."
-            echo "-h for more info"
+            echo "However, you can manually assign monitors using the -P option."
+            echo "$this_script_name -h for examples"
             exit 1
         fi
     fi
