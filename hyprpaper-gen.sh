@@ -76,6 +76,7 @@ scan_current_config() {
             echo "However, you can manually assign wallpapers to monitors using -P option."
             echo "'$this_script_name -h' for examples"
             exit 1
+        fi
 
         # Store wallpaper paths, if directory and wallpapers do exist
         if [ -d "$wallpaper_dir" ]; then
@@ -95,8 +96,6 @@ scan_current_config() {
 
     # Store "wallpaper = ..." lines, line-by-line
     mapfile -t existing_wallpapers < <(grep 'wallpaper =' "$config_file" 2>/dev/null)
-    
-    fi
 }
 
 set_mode() { 
