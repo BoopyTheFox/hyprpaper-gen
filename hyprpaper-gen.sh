@@ -233,10 +233,10 @@ scan_current_config;
 generate_config;
 
 if $start_hyprpaper && ! pgrep -x "hyprpaper" > /dev/null; then
-    hyprpaper &
+    hyprpaper -c $config_file &
 fi
 
 if $restart_hyprpaper; then 
     killall hyprpaper; 
-    hyprpaper & 
+    hyprpaper -c $config_file & 
 fi
