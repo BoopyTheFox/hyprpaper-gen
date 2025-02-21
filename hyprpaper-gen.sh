@@ -80,7 +80,7 @@ scan_current_config() {
 
         # Store wallpaper paths, if directory and wallpapers do exist
         if [ -d "$wallpaper_dir" ]; then
-            all_wallpapers=($(find -L "$wallpaper_dir" -maxdepth 1 -type f 2>/dev/null))
+            all_wallpapers=($(find -L "$wallpaper_dir" -maxdepth 1 -type f -regextype posix-extended -regex ".*\.(jpg|jpeg|jxl|png|xl|webp)" 2>/dev/null))
         else
             echo "$wallpaper_dir directory doesn't exist!"
             echo "'$this_script_name -w /path/to/wallpaper_directory' to set custom directory"
